@@ -22,7 +22,7 @@ Bundle 'sontek/rope-vim'
 Bundle 'tpope/vim-fugitive'
 Bundle 'msanders/snipmate.vim'
 Bundle 'ervandew/supertab'
-Bundle 'nvie/vim-flake8'
+Bundle 'Valloric/YouCompleteMe'
 
 " vim-scripts repos
 Bundle 'L9'
@@ -86,7 +86,9 @@ set shiftwidth=4
 set expandtab
 set smarttab
 set autoindent
-set smartindent
+" smartindent puts comments at the beginning of lines
+"set smartindent
+set cindent
 set mouse=a
 
 
@@ -135,6 +137,19 @@ if has("gui_running")
 else
     colorscheme lucius
 endif
+
+
+" Words I commonly misspell
+iab teh the
+iab improt import
+iab pritn print
+iab restuarant restaurant
+iab restuarants restaurants
+iab resutls results
+iab fro for
+iab adn and
+iab reponse response
+iab slef self
                            
                             
                             "
@@ -142,8 +157,8 @@ endif
 " FileType specific changes
 "
 " ============================================================
-"                            " Javascript
-                            au BufRead *.js set makeprg=jslint\ %
+" Javascript
+au BufRead *.js set makeprg=jslint\ %
 " Use tab to scroll through autocomplete menus
 "autocmd VimEnter * imap <expr> <Tab> pumvisible() ? "<C-N>" : "<Tab>"
 "autocmd VimEnter * imap <expr> <S-Tab> pumvisible() ? "<C-P>" : "<S-Tab>"
@@ -179,6 +194,11 @@ let g:flake8_ignore="E501,W293"
 set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
+
+" When trying to save in a directory for which you don't
+" have privileges, vim will prompt you for sudo password
+" instead of completely disallowing writes.
+command! W w !sudo tee % > /dev/null
 
 " Add the virtualenv's site-packages to vim path
 if has('python')
